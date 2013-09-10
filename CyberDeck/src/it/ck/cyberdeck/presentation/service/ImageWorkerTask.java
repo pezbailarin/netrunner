@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -21,42 +22,40 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ImageView;
 
-public class ImageDownloader extends AsyncTask<Void, Integer, Void> {
+public class ImageWorkerTask extends AsyncTask<Void, Integer, Void> {
 
 	private String url;
 	private FileOutputStream fos;
-	private DownloaderView dlv;
 	private Bitmap bmp;
 	private File targetFile;
+	private WeakReference<ImageView> imgRef;
 
-	public ImageDownloader(String url, DownloaderView dlv, CardKey key) {
+	public ImageWorkerTask(String url, DownloaderView dlv, CardKey key) {
 		this.url = url;
-		this.dlv = dlv;
+		this.imgRef = dlv.getImReference();
 		this.targetFile =  new File(dlv.getContext().getDir("cards", Context.MODE_PRIVATE), key.getCardCode()+".png");
 	}
-	
-	@Override
-	protected void onPreExecute() {
-		dlv.showProgress();
-		super.onPreExecute();
-	}
-
 
 	@Override
 	protected Void doInBackground(Void... arg0) {
-		bmp = getBitmapFromURL(url);
+		if(targetFile.exists()){
+			bmp = BitmapFactory.decodeFile(targetFile.getPath());
+		}else{
+			bmp = getBitmapFromURL(url);
+		}
 		return null;
 	}
 
 	@Override
 	protected void onPostExecute(Void result) {
 		saveImage();
-		dlv.setImage(bmp);
+		imgRef.get().setImageBitmap(bmp);
 		super.onPostExecute(result);
 	}
 
-	public Bitmap getBitmapFromURL(String link) {
+	protected Bitmap getBitmapFromURL(String link) {
 		try {
 			URL url = new URL(link);
 			HttpURLConnection connection = (HttpURLConnection) url

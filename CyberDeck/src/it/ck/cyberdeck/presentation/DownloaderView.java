@@ -1,12 +1,14 @@
 package it.ck.cyberdeck.presentation;
 
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 public interface DownloaderView {
 	
 	Context getContext();
-	void showProgress();
-	void setImage(Bitmap bmp);
+	WeakReference<ImageView> getImReference();
 
 }

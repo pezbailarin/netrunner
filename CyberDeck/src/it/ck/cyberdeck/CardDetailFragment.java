@@ -1,5 +1,7 @@
 package it.ck.cyberdeck;
 
+import java.lang.ref.WeakReference;
+
 import it.ck.cyberdeck.model.Card;
 import it.ck.cyberdeck.presentation.CardDetailView;
 import it.ck.cyberdeck.presentation.CyberDeckApp;
@@ -32,8 +34,6 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 
 	private View rootView;
 
-	private ProgressBar pb;
-
 	private ImageView iView;
 
 	/**
@@ -60,7 +60,7 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		presenter = new CardDetailPresenter(this, getImageService());
+		presenter = new CardDetailPresenter(this);
 	}
 
 	@Override
@@ -70,7 +70,6 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 				container, false);
 
 		iView = (ImageView) rootView.findViewById(R.id.card_detail);
-		pb = (ProgressBar) rootView.findViewById(R.id.progressBar1);
 		presenter.populateView();
 		return rootView;
 	}
@@ -88,7 +87,6 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 	public void setCardImage(Bitmap cardImage) {
 		iView.setImageBitmap(cardImage);
 		iView.setVisibility(View.VISIBLE);
-		pb.setVisibility(View.INVISIBLE);
 	}
 	
 
@@ -96,19 +94,9 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 	public Context getContext() {
 		return getActivity();
 	}
-
-	@Override
-	public void showProgress() {
-		pb.setVisibility(View.VISIBLE);
-		iView.setVisibility(View.INVISIBLE);
-	}
 	
 	@Override
-	public void setImage(Bitmap bmp) {
-		this.setCardImage(bmp);
-	}
-
-	private ImageService getImageService(){
-		return ((CyberDeckApp)getActivity().getApplication()).getImageService();
+	public WeakReference<ImageView> getImReference() {
+		return new WeakReference<ImageView>(iView);
 	}
 }
