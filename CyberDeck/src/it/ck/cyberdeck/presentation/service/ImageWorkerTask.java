@@ -50,8 +50,16 @@ public class ImageWorkerTask extends AsyncTask<Void, Integer, Void> {
 
 	@Override
 	protected void onPostExecute(Void result) {
-		saveImage();
-		imgRef.get().setImageBitmap(bmp);
+		if(bmp!= null){
+			saveImage();
+			if (imgRef != null) {
+				final ImageView imageView = imgRef.get();
+				if (imageView != null) {
+					imageView.setImageBitmap(bmp);
+				}
+			}
+			
+		}
 		super.onPostExecute(result);
 	}
 
