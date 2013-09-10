@@ -9,6 +9,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,13 @@ public class CardLibraryArrayAdapter extends ArrayAdapter<Card> {
 		LayoutInflater inflater = (LayoutInflater) context
 		    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+		View rowView;
+		if(convertView != null){
+			rowView = convertView;
+		}else{
+			rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+		}
+		
 
 		TextView textView = (TextView) rowView.findViewById(R.id.cardName);
 
@@ -44,9 +51,8 @@ public class CardLibraryArrayAdapter extends ArrayAdapter<Card> {
 		Card card = getItem(position);
 		textView.setText(card.getName());
 
-		int resImg = ImageFactory.gefFactionImageId(context, card.getSide(), card.getFaction());
-
-		imageView.setImageResource(resImg);
+		Bitmap bmp = ImageFactory.getFactionImage(context, card.getSide(), card.getFaction());
+		imageView.setImageBitmap(bmp);
 
 		return rowView;
 	}
