@@ -1,22 +1,23 @@
 package it.ck.cyberdeck;
 
-import java.lang.ref.WeakReference;
-
 import it.ck.cyberdeck.model.Card;
 import it.ck.cyberdeck.presentation.CardDetailView;
-import it.ck.cyberdeck.presentation.CyberDeckApp;
 import it.ck.cyberdeck.presentation.DownloaderView;
 import it.ck.cyberdeck.presentation.presenter.CardDetailPresenter;
-import it.ck.cyberdeck.presentation.service.ImageService;
+
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 /**
  * A fragment representing a single Card detail screen. This fragment is either
@@ -70,6 +71,9 @@ public class CardDetailFragment extends Fragment implements CardDetailView, Down
 				container, false);
 
 		iView = (ImageView) rootView.findViewById(R.id.card_detail);
+		Resources resources = getResources();
+		Bitmap mLoadingBitmap = BitmapFactory.decodeResource(resources, R.drawable.empty_photo);
+		iView.setBackgroundDrawable(new BitmapDrawable(resources, mLoadingBitmap));
 		presenter.populateView();
 		return rootView;
 	}
