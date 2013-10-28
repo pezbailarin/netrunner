@@ -3,15 +3,15 @@ package it.ck.cyberdeck.presentation.adapter;
 import it.ck.cyberdeck.R;
 import it.ck.cyberdeck.model.Card;
 import it.ck.cyberdeck.model.CardKey;
+import it.ck.cyberdeck.presentation.CyberDeckApp;
 import it.ck.cyberdeck.presentation.DownloaderView;
 import it.ck.cyberdeck.presentation.service.ImageTask;
+import it.ck.cyberdeck.presentation.service.ThumbnailImageTask;
 
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask.Status;
 import android.support.v4.util.LruCache;
 import android.view.View;
@@ -25,26 +25,19 @@ public class CardGridAdapter  extends BaseAdapter {
 		private List<Card> cards;
 		private int tmbPixHeight;
 		private int tmbPixWidth;
-		private Bitmap bgImg;
-		private LruCache<String, Bitmap> mMemoryCache;
+		private LruCache<String, Bitmap> imageCache;
 		
 	    public CardGridAdapter(Context c, List<Card> cards) {
 	        context = c;
 			this.cards = cards;
 			tmbPixHeight = c.getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
 			tmbPixWidth = c.getResources().getDimensionPixelSize(R.dimen.image_thumbnail_size);
-			
-		    final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
-
-		    final int cacheSize = maxMemory / 6;
-
-		    mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
-		        @Override
-		        protected int sizeOf(String key, Bitmap bitmap) {
-		            return bitmap.getRowBytes() * bitmap.getHeight() / 1024;
-		        }
-		    };
+			imageCache = getCyberDeckApp().getImageCache();
 	    }
+
+		private CyberDeckApp getCyberDeckApp() {
+			return (CyberDeckApp)context.getApplicationContext();
+		}
 
 	    public int getCount() {
 	        return cards.size();
@@ -63,22 +56,22 @@ public class CardGridAdapter  extends BaseAdapter {
 	        if (convertView == null) { 
 	            imageView = new ImageDowloaderView(context);
 	            imageView.setLayoutParams(new GridView.LayoutParams(tmbPixWidth, tmbPixHeight));
-	            imageView.setScaleType(ImageView.ScaleType.CENTER);
+	            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 	            imageView.setPadding(8, 8, 8, 8);
+	            imageView.setBackgroundResource(R.drawable.runner_back);
 	        } else {
 	            imageView = (ImageDowloaderView) convertView;
 	            imageView.setImage(null);
 	            
 	        }
 	        
-	        imageView.setBackgroundDrawable(getBgImg());
+	        imageView.setBackgroundResource(R.drawable.runner_back);
 	        CardKey key = getItem(position).getKey();
 	        Bitmap bitmap = getBitmapFromCache(key.getCardCode());
 			if(bitmap!=null){
 	        	imageView.setImage(bitmap);
 	        }else{
-				String url = "http://netrunnercards.info/web/bundles/netrunnerdbcards/images/cards/300x418/"+ key.getCardCode() +".png";
-				ImageTask task = new ImageTask(url, imageView, key, tmbPixWidth, tmbPixHeight);
+				ImageTask task = new ThumbnailImageTask(imageView, key,getCyberDeckApp().getImageService(), tmbPixWidth, tmbPixHeight);
 				imageView.setTask(task);
 		        task.execute();
 	        }
@@ -86,17 +79,15 @@ public class CardGridAdapter  extends BaseAdapter {
 	    }
 
 		private Bitmap getBitmapFromCache(String cardCode) {
-			return mMemoryCache.get(cardCode);
+			return imageCache.get(cardCode);
+		}
+		
+		private void addImgToCache(CardKey key, Bitmap bmp) {
+		    if (key!=null && getBitmapFromCache(key.getCardCode()) == null && bmp!= null) {
+		        imageCache.put(key.getCardCode(), bmp);
+		    }
 		}
 	    
-	    private Drawable getBgImg() {
-			
-			if(this.bgImg == null){
-				bgImg = BitmapFactory.decodeResource(context.getResources(), R.drawable.runner_back);
-			}
-			return null;
-		}
-
 		class ImageDowloaderView extends ImageView implements DownloaderView{
 
 			private ImageTask task;
@@ -131,12 +122,4 @@ public class CardGridAdapter  extends BaseAdapter {
 	    	
 	    }
 		
-		private void addImgToCache(CardKey key, Bitmap bmp) {
-			
-			    if (key!=null && getBitmapFromCache(key.getCardCode()) == null && bmp!= null) {
-			        mMemoryCache.put(key.getCardCode(), bmp);
-			    }
-			
-		}
-	
 }
