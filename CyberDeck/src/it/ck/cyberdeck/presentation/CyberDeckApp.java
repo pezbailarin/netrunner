@@ -5,6 +5,7 @@ import it.ck.cyberdeck.app.DeckServiceImpl;
 import it.ck.cyberdeck.persistance.CachedGateway;
 import it.ck.cyberdeck.persistance.filesystem.AndroidLibraryCardGateway;
 import it.ck.cyberdeck.presentation.service.AndroidFSImageService;
+import it.ck.cyberdeck.presentation.service.CachedImageService;
 import it.ck.cyberdeck.presentation.service.ImageService;
 import android.app.Application;
 import android.graphics.Bitmap;
@@ -49,6 +50,10 @@ public class CyberDeckApp extends Application {
 
 	public ImageService getImageService() {
 		return new AndroidFSImageService(this);
+	}
+	
+	public ImageService getCachedImageService(){
+		return new CachedImageService(getImageService(), getImageCache());
 	}
 
 }
