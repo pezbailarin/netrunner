@@ -22,7 +22,6 @@ public class CardEntryGridAdapter extends BaseAdapter {
 	private List<CardEntry> entries;
 	private int tmbPixHeight;
 	private int tmbPixWidth;
-	private Object imageCache;
 
 	public CardEntryGridAdapter(Context c, List<CardEntry> entries) {
 		this.context = c;
@@ -31,7 +30,6 @@ public class CardEntryGridAdapter extends BaseAdapter {
 				R.dimen.image_thumbnail_size);
 		this.tmbPixWidth = c.getResources().getDimensionPixelSize(
 				R.dimen.image_thumbnail_size);
-		this.imageCache = getCyberDeckApp().getImageCache();
 	}
 
 	private CyberDeckApp getCyberDeckApp() {
