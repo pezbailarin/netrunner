@@ -20,7 +20,7 @@ public class CardEntryFragment extends DeckFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		adapter = new CardEntryGridAdapter(getActivity(), getDeck().cards());
+		adapter = new CardEntryGridAdapter(getActivity(), getDeck());
 	}
 
 	@Override

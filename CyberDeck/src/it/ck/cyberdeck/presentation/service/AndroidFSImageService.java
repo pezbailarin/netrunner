@@ -104,7 +104,8 @@ public class AndroidFSImageService implements ImageService {
 
 	@SuppressLint("NewApi")
 	private File getFile(String key) {
-		return new File(context.getExternalFilesDir("cards"), key);
+//		return new File(context.getExternalFilesDir("cards"), key);
+		return new File(context.getDir("cards", Context.MODE_PRIVATE), key);
 	}
 
 	private Bitmap decodeBitmap(File file, int tmbPixWidth, int tmbPixHeight) {

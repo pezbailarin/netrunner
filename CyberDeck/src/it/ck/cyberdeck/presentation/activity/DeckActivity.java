@@ -5,7 +5,7 @@ import it.ck.cyberdeck.model.CardEntry;
 import it.ck.cyberdeck.model.DeckStatus;
 import it.ck.cyberdeck.presentation.BaseDeckActivity;
 import it.ck.cyberdeck.presentation.DeckView;
-import it.ck.cyberdeck.presentation.adapter.CardEntryListViewAdapter;
+import it.ck.cyberdeck.presentation.adapter.CardEntryGridAdapter;
 import it.ck.cyberdeck.presentation.fragment.CardDetailFragment;
 
 import java.util.List;
@@ -20,15 +20,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.GridView;
 import android.widget.TextView;
 
 public class DeckActivity extends BaseDeckActivity implements DeckView {
 
 	private TextView identityName;
 	private TextView deckStatusLine;
-	private ListView cardList;
-	private CardEntryListViewAdapter listViewAdapter;
+	private GridView cardList;
+	private CardEntryGridAdapter listViewAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,10 @@ public class DeckActivity extends BaseDeckActivity implements DeckView {
 		identityName = (TextView) findViewById(R.id.deck_identity);
 		deckStatusLine = (TextView) findViewById(R.id.deckStatusLine);
 		
-		listViewAdapter = new CardEntryListViewAdapter(
+		listViewAdapter = new CardEntryGridAdapter(
 				this.getApplicationContext(), getDeck());
 
-		cardList = (ListView) findViewById(R.id.deck_cards);
+		cardList = (GridView) findViewById(R.id.deck_cards);
 
 		cardList.setAdapter(listViewAdapter);
 
@@ -131,7 +131,7 @@ public class DeckActivity extends BaseDeckActivity implements DeckView {
 	@Override
 	public void publishEntryList(List<CardEntry> cards) {
 		listViewAdapter.clear();
-		listViewAdapter.addAll(cards);
+//		listViewAdapter.addAll(cards);
 	}
 
 	@Override
