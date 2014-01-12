@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 public class JsonCardDataGatewayTest {
-	
+
 	private FileSystemLibraryCardGateway gw = new FileSystemLibraryCardGateway();
 
 	@Test
@@ -30,11 +30,10 @@ public class JsonCardDataGatewayTest {
 			assertThat(card.set, is(not(nullValue())));
 		}
 	}
-	
+
 	@Test
-	public void iCanGetTheDeckList(){
+	public void iCanGetTheDeckList() {
 		List<String> deckNames = gw.deckNames();
-		assertThat(deckNames.size()>0, is(true));
-		
+		assertThat(deckNames.size() > 0, is(true));
 	}
 }

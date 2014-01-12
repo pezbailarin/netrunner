@@ -10,7 +10,7 @@ import it.ck.cyberdeck.persistance.filesystem.FileSystemLibraryCardGateway;
 import org.junit.Test;
 
 public class TestDeckPersistance {
-
+	
 	LibraryCardGateway gw = new FileSystemLibraryCardGateway();
 
 	@Test
