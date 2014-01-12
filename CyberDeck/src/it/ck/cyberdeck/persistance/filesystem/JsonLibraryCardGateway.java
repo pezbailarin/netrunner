@@ -59,8 +59,8 @@ public abstract class JsonLibraryCardGateway implements LibraryCardGateway {
 	protected abstract File getDeckDir();
 
 	@Override
-	public CardLibrary loadCardLibrary() {
-		CardLibrary cl = new CardLibrary(getRuleFactory());
+	public AndroidNetrunnerCardLibrary loadCardLibrary() {
+		AndroidNetrunnerCardLibrary cl = new AndroidNetrunnerCardLibrary(getRuleFactory());
 		cl.addAll(loadCards());
 		return cl;
 	}

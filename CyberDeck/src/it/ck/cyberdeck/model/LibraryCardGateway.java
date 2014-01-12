@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface LibraryCardGateway {
 
-	CardLibrary loadCardLibrary();
+	AndroidNetrunnerCardLibrary loadCardLibrary();
 
 	void saveDeck(Deck deck);
 

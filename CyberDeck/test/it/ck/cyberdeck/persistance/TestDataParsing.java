@@ -3,6 +3,7 @@ package it.ck.cyberdeck.persistance;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 import it.ck.cyberdeck.model.Card;
+import it.ck.cyberdeck.model.AndroidNetrunnerCardLibrary;
 import it.ck.cyberdeck.model.CardLibrary;
 import it.ck.cyberdeck.model.reputation.StandardReputationRuleFactory;
 import it.ck.cyberdeck.persistance.filesystem.FileSystemLibraryCardGateway;
@@ -27,7 +28,7 @@ public class TestDataParsing {
 		FileSystemLibraryCardGateway loader = new FileSystemLibraryCardGateway(
 				path);
 		List<Card> loadCards = loader.loadCardLibrary().getCardList();
-		CardLibrary cl = new CardLibrary(new StandardReputationRuleFactory());
+		CardLibrary cl = new AndroidNetrunnerCardLibrary(new StandardReputationRuleFactory());
 		cl.addAll(loadCards);
 		return cl;
 	}

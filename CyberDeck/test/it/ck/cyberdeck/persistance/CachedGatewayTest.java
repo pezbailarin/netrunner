@@ -2,7 +2,7 @@ package it.ck.cyberdeck.persistance;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
-import it.ck.cyberdeck.model.CardLibrary;
+import it.ck.cyberdeck.model.AndroidNetrunnerCardLibrary;
 import it.ck.cyberdeck.model.LibraryCardGateway;
 import it.ck.cyberdeck.model.reputation.StandardReputationRuleFactory;
 
@@ -58,10 +58,10 @@ public class CachedGatewayTest {
 	@Test
 	public void itCachesTheCallsToLoadLibrary(){
 		context.checking(new Expectations(){{
-			oneOf(delegate).loadCardLibrary();will(returnValue(new CardLibrary(new StandardReputationRuleFactory())));
+			oneOf(delegate).loadCardLibrary();will(returnValue(new AndroidNetrunnerCardLibrary(new StandardReputationRuleFactory())));
 		}});
 		
-		CardLibrary cardLibrary = gw.loadCardLibrary();
+		AndroidNetrunnerCardLibrary cardLibrary = gw.loadCardLibrary();
 		assertThat(cardLibrary, is(not(nullValue())));
 		assertThat(gw.loadCardLibrary(),  is(sameInstance(cardLibrary)));
 	}

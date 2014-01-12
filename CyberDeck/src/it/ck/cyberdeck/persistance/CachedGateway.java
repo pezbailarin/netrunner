@@ -8,14 +8,14 @@ public class CachedGateway implements LibraryCardGateway{
 
 	private LibraryCardGateway delegate;
 
-	private CardLibrary cl;
+	private AndroidNetrunnerCardLibrary cl;
 	
 	public CachedGateway(LibraryCardGateway delegate) {
 	  this.delegate = delegate;
   }
 
 	@Override
-  public CardLibrary loadCardLibrary() {
+  public AndroidNetrunnerCardLibrary loadCardLibrary() {
 	  if(this.cl == null){
 	  	cl = delegate.loadCardLibrary();
 	  }
