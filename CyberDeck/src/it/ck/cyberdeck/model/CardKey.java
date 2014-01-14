@@ -22,6 +22,10 @@ public class CardKey implements Serializable, Comparable<CardKey> {
 		return set.getCode() + df.format(num);
 	}
 
+	public CardSet getCardSet() {
+		return set;
+	}
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
@@ -45,5 +49,6 @@ public class CardKey implements Serializable, Comparable<CardKey> {
 
 		return this.num.compareTo(that.num);
 	}
+
 
 }

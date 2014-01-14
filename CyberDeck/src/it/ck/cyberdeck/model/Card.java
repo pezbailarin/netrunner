@@ -144,6 +144,10 @@ public class Card implements Serializable, Comparable<Card> {
 	public String getCardCode() {
 		return key.getCardCode();
 	}
+	
+	public CardSet getCardSet() {
+		return key.getCardSet();
+	}
 
 	@Override
 	public int hashCode() {

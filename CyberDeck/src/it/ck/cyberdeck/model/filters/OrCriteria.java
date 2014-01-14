@@ -1,7 +1,6 @@
 package it.ck.cyberdeck.model.filters;
 
 import it.ck.cyberdeck.model.Card;
-import it.ck.cyberdeck.model.CardLibrary;
 
 import java.util.List;
 
@@ -16,9 +15,9 @@ public class OrCriteria implements Criteria {
 	}
 
 	@Override
-	public List<Card> filter(CardLibrary library) {
-		List<Card> filtered = left.filter(library);
-		List<Card> filteredRight = right.filter(library);
+	public List<Card> filter(List<Card> cards) {
+		List<Card> filtered = left.filter(cards);
+		List<Card> filteredRight = right.filter(cards);
 		filtered.addAll(filteredRight);
 		return filtered;
 	}
