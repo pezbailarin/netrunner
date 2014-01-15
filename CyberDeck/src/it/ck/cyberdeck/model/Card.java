@@ -145,8 +145,8 @@ public class Card implements Serializable, Comparable<Card> {
 		return key.getCardCode();
 	}
 	
-	public CardSet getCardSet() {
-		return key.getCardSet();
+	public boolean belongTo(CardSet cardSet) {
+		return cardSet.equals(key.getCardSet());
 	}
 
 	@Override
@@ -184,5 +184,9 @@ public class Card implements Serializable, Comparable<Card> {
 			return this.name.compareTo(another.name);
 		}
 		return this.classifier.compareTo(another.classifier);
+	}
+
+	public boolean hasSubtype(String subtype) {
+		return classifier.hasSubtype(subtype);
 	}
 }

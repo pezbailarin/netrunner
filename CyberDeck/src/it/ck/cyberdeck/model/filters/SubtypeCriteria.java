@@ -4,21 +4,20 @@ import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.select;
 import it.ck.cyberdeck.model.Card;
-import it.ck.cyberdeck.model.CardSet;
 
 import java.util.List;
 
-public class CardSetCriteria implements Criteria {
+public class SubtypeCriteria implements Criteria {
 
-	private CardSet cardSet;
+	private String subtype;
 
-	public CardSetCriteria(CardSet cardSet) {
-		this.cardSet = cardSet;
+	public SubtypeCriteria(String subtype) {
+		this.subtype = subtype;
 	}
 
-	@Override	
+	@Override
 	public List<Card> filter(List<Card> cards) {
-		return select(cards, having(on(Card.class).belongTo(cardSet)));
+		return select(cards, having(on(Card.class).hasSubtype("\\b" + subtype + "\\b")));
 	}
 
 }

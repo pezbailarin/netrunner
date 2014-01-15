@@ -16,6 +16,7 @@ public abstract class CriteriaTest {
 		List<Card> cards = new ArrayList<>();
 		cards.add(new Card(buildFakeCardData(0, 0, Faction.ANARCH, "cardName", 1, CardSet.CORE, Side.RUNNER, "subtype", CardType.EVENT)));
 		cards.add(new Card(buildFakeCardData(0, 0, Faction.HAAS_BIOROID, "another", 2, CardSet.A_STUDY_IN_STATIC, Side.CORP, "sub", CardType.OPERATION)));
+		cards.add(new Card(buildFakeCardData(0, 0, Faction.HAAS_BIOROID, "yet one more", 2, CardSet.A_STUDY_IN_STATIC, Side.CORP, "sub - sub2", CardType.OPERATION)));
 		return cards;
 	}
 
